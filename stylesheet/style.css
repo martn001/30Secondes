@@ -43,8 +43,13 @@ html, body, .container {
 }
 
 #random-word-button {
-  margin:  0 auto;
-  display: block;
+  position: absolute;
+  bottom:   0;
+}
+
+#random-word-display {
+  border-bottom: 1px solid #cb1d3c;
+  min-height:    30px;
 }
 
 #clear-game-button {
@@ -64,7 +69,8 @@ html, body, .container {
 }
 
 .input-container {
-  float: left;
+  float:    left;
+  position: relative;
 }
 
 .result-container {

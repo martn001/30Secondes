@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>30 secondes</title>
+
+  <!-- Style -->
+  <link href="stylesheet/style.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Javascript -->
+  <script src="dist/bundle.js" defer></script>
+</head>
+<body>
+<div class="container">
+  <div class="game-playground">
+    <!-- Before start -->
+    <div id="mainmenu">
+      <h1>30 secondes!</h1>
+      <hr>
+      <p>Krijg een willekeurig woord en probeer dit in 30 secondes te raden!</p>
+      <br/>
+      <button id="clear-game-button">Begin een nieuw spel</button>
+      <button id="resume-game-button">Hervat het huidige spel</button>
+    </div>
+
+    <!-- In game -->
+    <div id="game">
+      <div class="input-container">
+        <h3>Het woord is:</h3>
+        <h2 id="random-word-display"></h2>
+        <button id="random-word-button">Ontdek een willekeurig woord!</button>
+      </div>
+      <div class="result-container">
+        <h2>Geschiedenis</h2>
+        <ol id="history-overview"></ol>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

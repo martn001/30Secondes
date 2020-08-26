@@ -53,7 +53,7 @@ export default class Controller {
     const word = new Word(this.result.future[index]['id'], this.result.future[index]['name']);
 
     this.result.history.push(word);
-    this.result.future.slice(index, 1);
+    this.result.future.splice(index, 1);
 
     this.result.setHistoryWords();
     this.result.setFutureWords();

@@ -47,6 +47,11 @@ html, body, .container {
   bottom:   0;
 }
 
+#random-word-display {
+  border-bottom: 1px solid #cb1d3c;
+  min-height:    30px;
+}
+
 #clear-game-button {
   float: left;
 }

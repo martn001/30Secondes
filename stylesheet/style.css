@@ -1,12 +1,18 @@
+@font-face {
+  font-family: mate;
+  src:         url(Mate-Regular.ttf);
+}
+
 html, body, .container {
-  width:   100%;
-  height:  100%;
-  padding: 0;
-  margin:  0;
+  width:       100%;
+  height:      100%;
+  padding:     0;
+  margin:      0;
+  font-family: mate;
 }
 
 .container {
-  background-image: linear-gradient(to right bottom, #fcaab9 20%, #cf2a47 60%, #cb1d3c 20%);
+  background-image: linear-gradient(to right bottom, #fcaab9 10%, #cb1d3c 60%, #ffffff 50%);
   display:          inline-block;
 }
 

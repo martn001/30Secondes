@@ -28,7 +28,6 @@ export default class Controller {
     });
 
     this.randomWordButton.addEventListener('click', () => {
-      this.updateHistoryOverview();
       this.getRandomWord();
     });
 
@@ -49,16 +48,22 @@ export default class Controller {
   }
 
   getRandomWord() {
+    if (this.result.future.length <= 0) {
+      this.displayRandomWord('...');
+      return;
+    }
+
     const index = Math.floor(Math.random() * this.result.future.length);
     const word = new Word(this.result.future[index]['id'], this.result.future[index]['name']);
 
     this.result.history.push(word);
-    this.result.future.slice(index, 1);
+    this.result.future.splice(index, 1);
 
     this.result.setHistoryWords();
     this.result.setFutureWords();
 
     this.displayRandomWord(word.name);
+    this.displayWord(this.result.history.length - 1);
   }
 
   displayRandomWord(text) {
@@ -69,10 +74,14 @@ export default class Controller {
     this.historyOverview.innerHTML = '';
 
     for (const index in this.result.history) {
-      let htmlElement = document.createElement('li');
-      htmlElement.innerHTML = this.result.history[index]['name'];
-
-      this.historyOverview.appendChild(htmlElement);
+      this.displayWord(index);
     }
+  }
+
+  displayWord(index) {
+    let htmlElement = document.createElement('li');
+    htmlElement.innerHTML = this.result.history[index]['name'];
+
+    this.historyOverview.appendChild(htmlElement);
   }
 }

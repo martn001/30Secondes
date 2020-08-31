@@ -49,6 +49,10 @@ export default class Controller {
     this.mainmenu.style.display = 'none';
     this.game.style.display = 'block';
 
+    if (this.result.future.length <= 0) {
+      this.handleEndGame();
+    }
+
     this.updateHistoryOverview();
   }
 
@@ -64,9 +68,13 @@ export default class Controller {
 
     this.coolDownTimer = setTimeout(() => {
       this.randomWordButton.disabled = false;
-      this.randomWordButton.innerHTML = 'Ontdek een andere willekeurig woord!';
+      this.randomWordButton.innerHTML = 'Ontdek nog meer willekeurige woorden!';
       this.slider.style.transition = '0s';
       this.slider.style.width = '0';
+
+      if (this.result.future.length <= 0) {
+        this.handleEndGame();
+      }
 
       this.displaySelectedRandomWords('');
     }, 30 * 1000 + 50);
@@ -75,10 +83,20 @@ export default class Controller {
   handleRandomWordsAction() {
     let result = '';
 
+    if (this.result.future.length <= 0) {
+      this.handleEndGame();
+      return;
+    }
+
     // Generate 5 random words
     for (let x = 0; x < 5; x++) {
       result += this.getRandomWord();
       result += '<br/>';
+
+      if (this.result.future.length <= 0) {
+        this.handleEndGame();
+        break;
+      }
     }
 
     this.result.setHistoryWords();
@@ -93,7 +111,6 @@ export default class Controller {
 
   getRandomWord() {
     if (this.result.future.length <= 0) {
-      this.handleEndGame();
       return '...';
     }
 

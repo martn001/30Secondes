@@ -67,6 +67,8 @@ export default class Controller {
       this.randomWordButton.innerHTML = 'Ontdek een andere willekeurig woord!';
       this.slider.style.transition = '0s';
       this.slider.style.width = '0';
+
+      this.displaySelectedRandomWords('');
     }, 30 * 1000 + 50);
   }
 

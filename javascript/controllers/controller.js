@@ -28,7 +28,7 @@ export default class Controller {
     });
 
     this.randomWordButton.addEventListener('click', () => {
-      this.getRandomWord();
+      this.handleRandomWordsAction();
     });
 
     if (this.result.hasStorage()) {
@@ -37,6 +37,7 @@ export default class Controller {
   }
 
   loadGame() {
+    this.randomWordButton.disabled = false;
     this.mainmenu.style.display = 'none';
     this.game.style.display = 'block';
 
@@ -47,10 +48,29 @@ export default class Controller {
     this.result.reload();
   }
 
+  handleRandomWordsAction() {
+    let result = '';
+
+    // Generate 5 random words
+    for (let x = 0; x < 5; x++) {
+      result += this.getRandomWord();
+      result += '<br/>';
+    }
+
+    this.result.setHistoryWords();
+    this.result.setFutureWords();
+
+    this.displaySelectedRandomWords(result);
+  }
+
+  handleEndGame() {
+    this.randomWordButton.disabled = true;
+  }
+
   getRandomWord() {
     if (this.result.future.length <= 0) {
-      this.displayRandomWord('...');
-      return;
+      this.handleEndGame();
+      return '...';
     }
 
     const index = Math.floor(Math.random() * this.result.future.length);
@@ -59,14 +79,11 @@ export default class Controller {
     this.result.history.push(word);
     this.result.future.splice(index, 1);
 
-    this.result.setHistoryWords();
-    this.result.setFutureWords();
-
-    this.displayRandomWord(word.name);
-    this.displayWord(this.result.history.length - 1);
+    this.displayWordInHistory(this.result.history.length - 1);
+    return word.name;
   }
 
-  displayRandomWord(text) {
+  displaySelectedRandomWords(text) {
     document.querySelector('#random-word-display').innerHTML = text;
   }
 
@@ -74,11 +91,11 @@ export default class Controller {
     this.historyOverview.innerHTML = '';
 
     for (const index in this.result.history) {
-      this.displayWord(index);
+      this.displayWordInHistory(index);
     }
   }
 
-  displayWord(index) {
+  displayWordInHistory(index) {
     let htmlElement = document.createElement('li');
     htmlElement.innerHTML = this.result.history[index]['name'];
 

@@ -60,17 +60,21 @@ export default class Controller {
     this.randomWordButton.disabled = true;
     this.randomWordButton.innerHTML = 'Beurt bezig...';
     this.slider.style.width = '0';
+    this.slider.style.backgroundPositionX = '0px';
     this.slider.style.transition = 'all 30s linear 0s';
 
     this.animationTimer = setTimeout(() => {
       this.slider.style.width = '100%';
+      this.slider.style.backgroundPositionX = '-500px';
     }, 50);
 
     this.coolDownTimer = setTimeout(() => {
       this.randomWordButton.disabled = false;
       this.randomWordButton.innerHTML = 'Ontdek nog meer willekeurige woorden!';
       this.slider.style.transition = '0s';
+
       this.slider.style.width = '0';
+      this.slider.style.backgroundPositionX = '0px';
 
       if (this.result.future.length <= 0) {
         this.handleEndGame();

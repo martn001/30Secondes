@@ -43,8 +43,9 @@ html, body, .container {
 }
 
 #random-word-button {
-  position: absolute;
-  bottom:   0;
+  position:      absolute;
+  bottom:        0;
+  margin-bottom: 10px;
 }
 
 #random-word-display {
@@ -53,12 +54,14 @@ html, body, .container {
 }
 
 #clear-game-button {
-  float: left;
+  float:         left;
+  margin-bottom: 10px;
 }
 
 #resume-game-button {
-  display: none;
-  float:   right;
+  display:       none;
+  float:         right;
+  margin-bottom: 10px;
 }
 
 .input-container, .result-container {
@@ -87,8 +90,7 @@ html, body, .container {
 }
 
 .v-progress-linear__background {
-  background-color: #03a9f4;
-  border-color:     #03a9f4;
+  background-color: #fcaab9;
   bottom:           0;
   left:             0;
   position:         absolute;
@@ -99,8 +101,7 @@ html, body, .container {
   background-image:  linear-gradient(135deg, hsla(0, 0%, 100%, .25) 25%, transparent 0, transparent 50%, hsla(0, 0%, 100%, .25) 0, hsla(0, 0%, 100%, .25) 75%, transparent 0, transparent);
   background-size:   40px 40px;
   background-repeat: repeat;
-  background-color:  #03a9f4 !important;
-  border-color:      #03a9f4 !important;
+  background-color:  #cb1d3c;
   height:            inherit;
   left:              0;
   position:          absolute;

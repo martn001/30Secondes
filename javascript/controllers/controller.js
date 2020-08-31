@@ -9,9 +9,14 @@ export default class Controller {
     this.resumeGameButton = document.querySelector('#resume-game-button');
     this.randomWordButton = document.querySelector('#random-word-button');
 
+    this.slider = document.querySelector('#slider');
+
     this.mainmenu = document.querySelector('#mainmenu');
     this.game = document.querySelector('#game');
     this.historyOverview = document.querySelector('#history-overview');
+
+    this.coolDownTimer = null;
+    this.animationTimer = null;
 
     this.beforeGame();
   }
@@ -28,7 +33,10 @@ export default class Controller {
     });
 
     this.randomWordButton.addEventListener('click', () => {
+      clearInterval(this.coolDownTimer);
+      clearInterval(this.animationTimer);
       this.handleRandomWordsAction();
+      this.handleCoolDownTimer();
     });
 
     if (this.result.hasStorage()) {
@@ -44,8 +52,22 @@ export default class Controller {
     this.updateHistoryOverview();
   }
 
-  clearGame() {
-    this.result.reload();
+  handleCoolDownTimer() {
+    this.randomWordButton.disabled = true;
+    this.randomWordButton.innerHTML = 'Beurt bezig...';
+    this.slider.style.width = '0';
+    this.slider.style.transition = 'all 30s linear 0s';
+
+    this.animationTimer = setTimeout(() => {
+      this.slider.style.width = '100%';
+    }, 50);
+
+    this.coolDownTimer = setTimeout(() => {
+      this.randomWordButton.disabled = false;
+      this.randomWordButton.innerHTML = 'Ontdek een andere willekeurig woord!';
+      this.slider.style.transition = '0s';
+      this.slider.style.width = '0';
+    }, 30 * 1000 + 50);
   }
 
   handleRandomWordsAction() {

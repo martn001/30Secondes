@@ -78,3 +78,30 @@ html, body, .container {
   overflow-y: scroll;
   float:      right;
 }
+
+.v-progress-linear {
+  background: transparent;
+  overflow:   hidden;
+  position:   relative;
+  width:      100%;
+}
+
+.v-progress-linear__background {
+  background-color: #03a9f4;
+  border-color:     #03a9f4;
+  bottom:           0;
+  left:             0;
+  position:         absolute;
+  top:              0;
+}
+
+.v-progress-linear__determinate {
+  background-image:  linear-gradient(135deg, hsla(0, 0%, 100%, .25) 25%, transparent 0, transparent 50%, hsla(0, 0%, 100%, .25) 0, hsla(0, 0%, 100%, .25) 75%, transparent 0, transparent);
+  background-size:   40px 40px;
+  background-repeat: repeat;
+  background-color:  #03a9f4 !important;
+  border-color:      #03a9f4 !important;
+  height:            inherit;
+  left:              0;
+  position:          absolute;
+}

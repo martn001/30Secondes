@@ -9,9 +9,14 @@ export default class Controller {
     this.resumeGameButton = document.querySelector('#resume-game-button');
     this.randomWordButton = document.querySelector('#random-word-button');
 
+    this.slider = document.querySelector('#slider');
+
     this.mainmenu = document.querySelector('#mainmenu');
     this.game = document.querySelector('#game');
     this.historyOverview = document.querySelector('#history-overview');
+
+    this.coolDownTimer = null;
+    this.animationTimer = null;
 
     this.beforeGame();
   }
@@ -28,7 +33,10 @@ export default class Controller {
     });
 
     this.randomWordButton.addEventListener('click', () => {
-      this.getRandomWord();
+      clearInterval(this.coolDownTimer);
+      clearInterval(this.animationTimer);
+      this.handleRandomWordsAction();
+      this.handleCoolDownTimer();
     });
 
     if (this.result.hasStorage()) {
@@ -37,20 +45,73 @@ export default class Controller {
   }
 
   loadGame() {
+    this.randomWordButton.disabled = false;
     this.mainmenu.style.display = 'none';
     this.game.style.display = 'block';
+
+    if (this.result.future.length <= 0) {
+      this.handleEndGame();
+    }
 
     this.updateHistoryOverview();
   }
 
-  clearGame() {
-    this.result.reload();
+  handleCoolDownTimer() {
+    this.randomWordButton.disabled = true;
+    this.randomWordButton.innerHTML = 'Beurt bezig...';
+    this.slider.style.width = '0';
+    this.slider.style.transition = 'all 30s linear 0s';
+
+    this.animationTimer = setTimeout(() => {
+      this.slider.style.width = '100%';
+    }, 50);
+
+    this.coolDownTimer = setTimeout(() => {
+      this.randomWordButton.disabled = false;
+      this.randomWordButton.innerHTML = 'Ontdek nog meer willekeurige woorden!';
+      this.slider.style.transition = '0s';
+      this.slider.style.width = '0';
+
+      if (this.result.future.length <= 0) {
+        this.handleEndGame();
+      }
+
+      this.displaySelectedRandomWords('');
+    }, 30 * 1000 + 50);
+  }
+
+  handleRandomWordsAction() {
+    let result = '';
+
+    if (this.result.future.length <= 0) {
+      this.handleEndGame();
+      return;
+    }
+
+    // Generate 5 random words
+    for (let x = 0; x < 5; x++) {
+      result += this.getRandomWord();
+      result += '<br/>';
+
+      if (this.result.future.length <= 0) {
+        this.handleEndGame();
+        break;
+      }
+    }
+
+    this.result.setHistoryWords();
+    this.result.setFutureWords();
+
+    this.displaySelectedRandomWords(result);
+  }
+
+  handleEndGame() {
+    this.randomWordButton.disabled = true;
   }
 
   getRandomWord() {
     if (this.result.future.length <= 0) {
-      this.displayRandomWord('...');
-      return;
+      return '...';
     }
 
     const index = Math.floor(Math.random() * this.result.future.length);
@@ -59,14 +120,11 @@ export default class Controller {
     this.result.history.push(word);
     this.result.future.splice(index, 1);
 
-    this.result.setHistoryWords();
-    this.result.setFutureWords();
-
-    this.displayRandomWord(word.name);
-    this.displayWord(this.result.history.length - 1);
+    this.displayWordInHistory(this.result.history.length - 1);
+    return word.name;
   }
 
-  displayRandomWord(text) {
+  displaySelectedRandomWords(text) {
     document.querySelector('#random-word-display').innerHTML = text;
   }
 
@@ -74,11 +132,11 @@ export default class Controller {
     this.historyOverview.innerHTML = '';
 
     for (const index in this.result.history) {
-      this.displayWord(index);
+      this.displayWordInHistory(index);
     }
   }
 
-  displayWord(index) {
+  displayWordInHistory(index) {
     let htmlElement = document.createElement('li');
     htmlElement.innerHTML = this.result.history[index]['name'];
 
